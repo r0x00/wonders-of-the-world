@@ -1,0 +1,17 @@
+services:
+  wonders-of-the-world_db:
+    container_name: wonders-of-the-world_db
+    image: postgres:18.4-alpine
+    environment:
+      POSTGRES_DB: wonders-of-the-world
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: wonders-of-the-world-psswd_1234@!
+    volumes:
+      - /srv/wonders-of-the-world/wonders-of-the-world_db/dev/postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
