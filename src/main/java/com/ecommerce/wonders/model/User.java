@@ -51,5 +51,13 @@ public class User extends BaseEntity {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    private List<Rating> rating = new ArrayList<Rating>();
+    private List<Rating> ratings = new ArrayList<Rating>();
+
+    @OneToMany(
+        mappedBy = "user"
+    )
+    private List<Order> orders = new ArrayList<Order>();
+
+    //rating
+    //order
 }

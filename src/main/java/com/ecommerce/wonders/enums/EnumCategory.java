@@ -1,7 +1,27 @@
 package com.ecommerce.wonders.enums;
 
 public enum EnumCategory {
-    ELETRONICS,
     CLOTHES,
-    TOYS
+    ELETRONICS,
+    COMPUTERS,
+    HOME,
+    GARDEN,
+    TOOLS,
+    PETS,
+    FOOD,
+    GROCERY,
+    BEAUTY,
+    HEALTH,
+    TOYS,
+    KIDS,
+    BABY,
+    HANDMADE,
+    SPORT,
+    OUTDOORS,
+    AUTOMOTIVE,
+    MOVIES,
+    MUSIC,
+    GAMES,
+    SMART_HOME,
+    OTHER,
 }

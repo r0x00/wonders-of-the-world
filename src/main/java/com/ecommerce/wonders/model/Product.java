@@ -94,6 +94,11 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
+    @OneToMany(
+        mappedBy = "product"
+    )
+    private List<Order> orders = new ArrayList<Order>();
+
 
     // name
     // price
@@ -107,4 +112,5 @@ public class Product extends BaseEntity {
     // rating
     // stock
     // store 
+    // order
 }
