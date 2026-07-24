@@ -19,9 +19,8 @@ public final class UserDto {
         @Email(message = "Invalid email format")
         String email,
 
-        @NotBlank(message = "cpf cannot be empty")
-        @Size(min = 11, max = 11, message = "cpf must have 11 characters")
-        String cpf
+        @NotBlank(message = "address cannot be empty")
+        String address
     ) {}
 
 

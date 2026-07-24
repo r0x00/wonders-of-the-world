@@ -2,6 +2,10 @@ package com.ecommerce.wonders.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;        
 
 import com.ecommerce.wonders.dto.UserDto.CreateUser;
@@ -9,7 +13,9 @@ import com.ecommerce.wonders.dto.UserDto.ResponseUser;
 import com.ecommerce.wonders.dto.UserDto.UpdateUser;
 import com.ecommerce.wonders.exception.BadRequestException;
 import com.ecommerce.wonders.model.User;
+import com.ecommerce.wonders.model.User_;
 import com.ecommerce.wonders.repository.UserRepository;
+
 
 @Service
 public class UserService {
@@ -20,8 +26,10 @@ public class UserService {
 
     }
 
-    public List<ResponseUser> getAllUsers(){
-        List<User> users = this.userRepository.findAll();
+    public List<ResponseUser> getAllUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, JpaSort.of(User_.updatedAt).descending());
+        
+        Page<User> users = this.userRepository.findAll(pageable);
 
         List<ResponseUser> values = users.stream()
             .map(user -> new ResponseUser(
@@ -63,11 +71,6 @@ public class UserService {
     }
 
     public void createUser(CreateUser rawJson) {
-        User existUserWithCpf = this.userRepository.findUserByCpf(rawJson.cpf());
-
-        if(existUserWithCpf != null) {
-            throw new BadRequestException("User already exists with cpf: " + rawJson.cpf());
-        }
 
         User existUserWithEmail = this.userRepository.findUserByEmail(rawJson.email());
 
@@ -79,7 +82,7 @@ public class UserService {
 
         user.setName(rawJson.name());
         user.setEmail(rawJson.email());
-        user.setCpf(rawJson.cpf());
+        // user.setAddress(rawJson.address());
 
         this.userRepository.save(user);
     }

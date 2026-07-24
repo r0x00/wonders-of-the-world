@@ -30,21 +30,18 @@ public class User extends BaseEntity {
 
     @Column(
         nullable = false,
-        unique = true
+        unique = true,
+        length = 200
     )
     private String email;
 
     @Column(
         nullable = false,
-        unique = false
+        unique = false,
+        length = 200
     )
     private String name;
 
-    @Column(
-        nullable = false,
-        unique = true
-    )
-    private String cpf;
 
     @OneToMany(
         mappedBy = "user",
@@ -58,6 +55,23 @@ public class User extends BaseEntity {
     )
     private List<Order> orders = new ArrayList<Order>();
 
+
+    @OneToMany(
+        mappedBy = "user",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<Address> adresses = new ArrayList<Address>();
+
+    @OneToMany(
+        mappedBy = "user",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<Payment> payments = new ArrayList<Payment>();
+
     //rating
     //order
+    //address
+    //payment
 }

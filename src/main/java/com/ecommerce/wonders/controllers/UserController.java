@@ -20,6 +20,7 @@ import com.ecommerce.wonders.dto.UserDto.UpdateUser;
 import com.ecommerce.wonders.services.UserService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 
 @RestController
 @RequestMapping("/users")
@@ -32,11 +33,10 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ResponseUserGetAll> getAllUsers(
-        // @RequestParam String query, 
         @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "10") int size
+        @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size
     ) {
-        List<ResponseUser> values = this.userService.getAllUsers();
+        List<ResponseUser> values = this.userService.getAllUsers(page, size);
         long count = this.userService.getAllUsersCount();
 
         ResponseUserGetAll result = new ResponseUserGetAll(values, count);
