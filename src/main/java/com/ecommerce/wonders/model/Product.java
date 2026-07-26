@@ -69,7 +69,8 @@ public class Product extends BaseEntity {
 
     @Column(
         nullable = true,
-        unique = false
+        unique = false,
+        length = 200
     )
     private String image;
 

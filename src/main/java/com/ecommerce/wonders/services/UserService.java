@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.wonders.dto.UserDto.CreateUser;
 import com.ecommerce.wonders.dto.UserDto.ResponseUser;
+import com.ecommerce.wonders.dto.UserDto.ResponseUserGetAll;
 import com.ecommerce.wonders.dto.UserDto.UpdateUser;
 import com.ecommerce.wonders.exception.BadRequestException;
+import com.ecommerce.wonders.mappers.UserMapper;
 import com.ecommerce.wonders.model.User;
 import com.ecommerce.wonders.model.User_;
 import com.ecommerce.wonders.repository.UserRepository;
@@ -20,69 +22,52 @@ import com.ecommerce.wonders.repository.UserRepository;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(
+        UserRepository userRepository, 
+        UserMapper userMapper
+    ) {
         this.userRepository = userRepository;
-
+        this.userMapper = userMapper;
     }
 
-    public List<ResponseUser> getAllUsers(int page, int size) {
+    public ResponseUserGetAll getAllUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, JpaSort.of(User_.updatedAt).descending());
         
         Page<User> users = this.userRepository.findAll(pageable);
 
         List<ResponseUser> values = users.stream()
-            .map(user -> new ResponseUser(
-                user.getId(), 
-                user.getName(), 
-                user.getEmail()
-            ))
+            .map(user -> this.userMapper.toDto(user))
             .toList();
-        
-        return values;
-    }
-    
-    public Long getAllUsersCount(){
+
         long count = this.userRepository.count();
 
-        return count;
+        ResponseUserGetAll result = new ResponseUserGetAll(values, count);
+        
+        return result;
     }
 
     public ResponseUser getUserById(Long id) {
         User user = this.userRepository.findById(id).orElseThrow(() -> new BadRequestException("User not found with ID: " + id));
 
-        ResponseUser result = new ResponseUser(
-            user.getId(), 
-            user.getName(), 
-            user.getEmail()
-        );
+        ResponseUser result = this.userMapper.toDto(user);
 
         return result;
     }
 
-
     public void updateUserById(Long id, UpdateUser rawJson) {
         User user = this.userRepository.findById(id).orElseThrow(() -> new BadRequestException("User not found with ID: " + id));
 
-        user.setName(rawJson.name());
-        user.setEmail(rawJson.email());
+        this.userMapper.updateEntityFromDto(rawJson, user);
 
         this.userRepository.save(user);
     }
 
     public void createUser(CreateUser rawJson) {
+        this.userRepository.findUserByEmail(rawJson.email()).orElseThrow(() -> new BadRequestException("User not found with email: " + rawJson.email()));
 
-        User existUserWithEmail = this.userRepository.findUserByEmail(rawJson.email());
-
-        if(existUserWithEmail != null) {
-            throw new BadRequestException("User already exists with email: " + rawJson.email());
-        }
-
-        User user = new User();
-
-        user.setName(rawJson.name());
-        user.setEmail(rawJson.email());
-        // user.setAddress(rawJson.address());
+        User user = this.userMapper.toEntityFromCreateDto(rawJson);
 
         this.userRepository.save(user);
     }

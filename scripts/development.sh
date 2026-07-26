@@ -22,4 +22,6 @@ checkDockerContainer "localstack-main"
 docker-compose -f ./docker/docker-compose.yml up -d
 checkDockerContainer "wonders-of-the-world_db"
 
+mvn clean compile
+
 ./mvnw spring-boot:run

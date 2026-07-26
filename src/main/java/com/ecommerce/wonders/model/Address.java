@@ -25,7 +25,11 @@ public class Address extends BaseEntity {
     )
     private Long id;
     
-    @Column()
+    @Column(
+        nullable = false,
+        unique = false,
+        length = 300
+    )
     private String streetAddress;
 
     @Column(

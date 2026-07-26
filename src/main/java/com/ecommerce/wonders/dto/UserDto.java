@@ -17,10 +17,7 @@ public final class UserDto {
 
         @NotBlank(message = "Email cannot be empty")
         @Email(message = "Invalid email format")
-        String email,
-
-        @NotBlank(message = "address cannot be empty")
-        String address
+        String email
     ) {}
 
 
@@ -35,13 +32,14 @@ public final class UserDto {
         String email
     ) {}
 
+    // User Response DTO
     public record ResponseUser(        
         Long id,
         String name,
         String email
     ) {}
 
-
+    // User Response Get All DTO
     public record ResponseUserGetAll(        
         List<ResponseUser> values,
         Long count

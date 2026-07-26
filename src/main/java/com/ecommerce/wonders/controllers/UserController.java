@@ -36,10 +36,7 @@ public class UserController {
         @RequestParam(defaultValue = "1") int page,
         @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size
     ) {
-        List<ResponseUser> values = this.userService.getAllUsers(page, size);
-        long count = this.userService.getAllUsersCount();
-
-        ResponseUserGetAll result = new ResponseUserGetAll(values, count);
+        ResponseUserGetAll result = this.userService.getAllUsers(page, size);
 
         return ResponseEntity.ok(result);
     }

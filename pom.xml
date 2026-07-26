@@ -86,6 +86,12 @@
 			<artifactId>spring-cloud-aws-starter-sqs</artifactId>
 			<version>4.0.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.6.3</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -131,7 +137,12 @@
 									<artifactId>hibernate-processor</artifactId>
 									<version>7.4.4.Final</version>
 								</path>
-									</annotationProcessorPaths>
+								 <path>
+									<groupId>org.mapstruct</groupId>
+									<artifactId>mapstruct-processor</artifactId>
+									<version>1.6.3</version>
+								</path>
+							</annotationProcessorPaths>
 						</configuration>
 					</execution>
 					<execution>
