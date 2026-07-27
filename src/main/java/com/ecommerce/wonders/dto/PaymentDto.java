@@ -27,14 +27,11 @@ public final class PaymentDto {
         String cvv,
 
         @NotNull(message = "Card Number cannot be empty")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/yyyy")
         YearMonth expirationDate,
 
         @NotBlank(message = "Payment Method cannot be empty")
-        EnumPaymentMethod paymentMethod,
-
-        @NotNull(message = "UserId cannot be empty")
-        Long userId
+        EnumPaymentMethod paymentMethod
     ){}
 
     // Payment Update DTO
@@ -50,14 +47,11 @@ public final class PaymentDto {
         String cvv,
 
         @NotNull(message = "Card Number cannot be empty")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/yyyy")
         YearMonth expirationDate,
 
         @NotBlank(message = "Payment Method cannot be empty")
-        EnumPaymentMethod paymentMethod,
-
-        @NotNull(message = "UserId cannot be empty")
-        Long userId
+        EnumPaymentMethod paymentMethod
     ){}
 
     // Payment Response DTO
@@ -67,8 +61,7 @@ public final class PaymentDto {
         String cardHolderName,
         String cvv,
         YearMonth expirationDate,
-        EnumPaymentMethod paymentMethod,
-        Long userId
+        EnumPaymentMethod paymentMethod
     ){}
 
     // Payment Response Get All

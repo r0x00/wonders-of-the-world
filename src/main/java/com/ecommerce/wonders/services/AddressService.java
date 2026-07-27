@@ -58,7 +58,7 @@ public class AddressService {
             .map(address -> this.addressMapper.toDto(address))
             .toList();
 
-        Long count = this.addressRepository.count();
+        Long count = addresses.getTotalElements();
 
         ResponseAddressGetAll result = new ResponseAddressGetAll(values, count);
         

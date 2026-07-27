@@ -1,6 +1,7 @@
 package com.ecommerce.wonders.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,8 +66,12 @@ public class UserService {
     }
 
     public void createUser(CreateUser rawJson) {
-        this.userRepository.findUserByEmail(rawJson.email()).orElseThrow(() -> new BadRequestException("User not found with email: " + rawJson.email()));
+        Optional<User> checkUserEmail = this.userRepository.findUserByEmail(rawJson.email());
 
+        if(checkUserEmail.isPresent()) {
+            throw new BadRequestException("User already exists with email: " + rawJson.email());
+        }
+        
         User user = this.userMapper.toEntityFromCreateDto(rawJson);
 
         this.userRepository.save(user);
