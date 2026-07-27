@@ -49,7 +49,7 @@ public class PaymentService {
         return result;
     }
 
-    public ResponsePaymentGetAll getAllPayment(Long userId, int page, int size) {
+    public ResponsePaymentGetAll getAllPayments(Long userId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, JpaSort.of(Payment_.updatedAt).descending());
         Page<Payment> payments = this.paymentRepository.getAllByUserId(userId, pageable);
 

@@ -31,12 +31,12 @@ public class PaymentController {
     }
 
     @GetMapping("{userId}")
-    public ResponseEntity<ResponsePaymentGetAll> getAllPayment(
+    public ResponseEntity<ResponsePaymentGetAll> getAllPayments(
         @PathVariable Long userId,
         @RequestParam(defaultValue = "1") int page,
         @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size
     ) {
-        ResponsePaymentGetAll result = this.paymentService.getAllPayment(userId, page, size);
+        ResponsePaymentGetAll result = this.paymentService.getAllPayments(userId, page, size);
 
         return ResponseEntity.ok(result);
     }

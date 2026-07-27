@@ -19,7 +19,6 @@ public final class StoreDto {
         @Size(min = 10, max = 500, message = "Description must be between 10 and 500 characters")
         String description,
 
-        @NotEmpty(message = "Image cannot be empty")
         @Pattern(regexp = "^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$", message = "Invalid image URL format")
         String image
     ){}
@@ -34,7 +33,6 @@ public final class StoreDto {
         @Size(min = 10, max = 500, message = "Description must be between 10 and 500 characters")
         String description,
 
-        @NotEmpty(message = "Image cannot be empty")
         @Pattern(regexp = "^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$", message = "Invalid image URL format")
         String image
     ){}
