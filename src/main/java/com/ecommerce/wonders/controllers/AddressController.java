@@ -31,7 +31,7 @@ public class AddressController {
 
     @GetMapping("{userId}")
     public ResponseEntity<ResponseAddressGetAll> getAllAddresses(
-        @RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size,
         @PathVariable Long userId
         

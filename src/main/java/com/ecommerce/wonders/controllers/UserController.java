@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ResponseUserGetAll> getAllUsers(
-        @RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size
     ) {
         ResponseUserGetAll result = this.userService.getAllUsers(page, size);
