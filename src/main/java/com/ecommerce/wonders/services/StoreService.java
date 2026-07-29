@@ -47,7 +47,7 @@ public class StoreService {
         return result;
     }
 
-    public ResponseStore getStore(Long id) {
+    public ResponseStore getStoreById(Long id) {
         Store store = this.storeRepository.findById(id).orElseThrow(() -> new BadRequestException("Store not found with ID: " + id));
 
         ResponseStore result = this.storeMapper.toDto(store);

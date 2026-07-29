@@ -17,7 +17,8 @@ public final class StockDto {
     public record ResponseStock(
         Long id,
         int quantity,
-        Long productId
+        Long productId,
+        Long storeId
     ){}
 
     // Stock Response Get All DTO

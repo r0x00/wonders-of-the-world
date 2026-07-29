@@ -11,6 +11,7 @@ import com.ecommerce.wonders.model.Stock;
 @Mapper(componentModel = "spring")
 public interface StockMapper {
     @Mapping(target = "productId", source = "product.id")
+    @Mapping(target = "storeId", source = "store.id")
     ResponseStock toDto(Stock stock);
 
     Stock toEntity(ResponseStock responseStock);

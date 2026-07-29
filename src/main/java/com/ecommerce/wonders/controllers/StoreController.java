@@ -40,10 +40,10 @@ public class StoreController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ResponseStore> getStore(
+    public ResponseEntity<ResponseStore> getStoreById(
         @PathVariable Long id
     ) {
-        ResponseStore result = this.storeService.getStore(id);
+        ResponseStore result = this.storeService.getStoreById(id);
 
         return ResponseEntity.ok(result);
     }

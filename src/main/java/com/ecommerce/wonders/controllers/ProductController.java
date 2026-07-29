@@ -64,10 +64,10 @@ public class ProductController {
 
 
     @GetMapping("{id}")
-    public ResponseEntity<ResponseProduct> getProduct(
+    public ResponseEntity<ResponseProduct> getProductById(
         @PathVariable Long id
     ) {
-        ResponseProduct result = this.productService.getProduct(id);
+        ResponseProduct result = this.productService.getProductById(id);
 
         return ResponseEntity.ok(result);   
     }

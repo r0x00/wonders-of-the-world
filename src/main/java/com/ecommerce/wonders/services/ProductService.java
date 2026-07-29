@@ -101,7 +101,7 @@ public class ProductService {
     }
 
 
-    public ResponseProduct getProduct(Long id) {
+    public ResponseProduct getProductById(Long id) {
         Product product = this.productRepository.findById(id).orElseThrow(() -> new BadRequestException("Product not found with ID: " + id));
 
         ResponseProduct result = this.productMapper.toDto(product);
@@ -110,7 +110,7 @@ public class ProductService {
     }
 
     public void createProduct(Long storeId, CreateProduct rawJson) {
-        ResponseStore storeResponse = this.storeService.getStore(storeId);
+        ResponseStore storeResponse = this.storeService.getStoreById(storeId);
 
         Product product = this.productMapper.toEntityFromCreateDto(rawJson);
 

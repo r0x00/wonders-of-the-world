@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ecommerce.wonders.enums.EnumRating;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -13,38 +12,26 @@ public final class RatingDto {
 
     // Rating Create DTO
     public record CreateRatingDto(
-        @NotEmpty(message="Rating cannot be empty")
+        @NotNull(message="Rating cannot be empty")
         EnumRating rating,
 
         @Size(min=0, max=500, message="Comment must be between 0 and 500 characters")
         String comment,
 
         @Size(min=0, max=10, message="Image must be between 0 and 10 images")
-        List<String> images,
-
-        @NotNull(message="ProductId cannot be empty")
-        Long productId,
-
-        @NotNull(message="UserId cannot be empty")
-        Long userId
+        List<String> images
     ){}
 
     // Rating Update DTO
     public record UpdateRatingDto(
-        @NotEmpty(message="Rating cannot be empty")
+        @NotNull(message="Rating cannot be empty")
         EnumRating rating,
 
         @Size(min=0, max=500, message="Comment must be between 0 and 500 characters")
         String comment,
 
         @Size(min=0, max=10, message="Image must be between 0 and 10 images")
-        List<String> images,
-
-        @NotNull(message="ProductId cannot be empty")
-        Long productId,
-
-        @NotNull(message="UserId cannot be empty")
-        Long userId
+        List<String> images
     ){}
 
     // Rating Response DTO
