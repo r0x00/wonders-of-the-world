@@ -3,6 +3,8 @@ package com.ecommerce.wonders.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,6 +19,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "store")
+@DynamicUpdate
 @Getter
 @Setter
 @NoArgsConstructor
@@ -53,6 +56,12 @@ public class Store extends BaseEntity {
         orphanRemoval = true
     )
     private List<Product> products = new ArrayList<Product>();
+
+
+    @OneToMany(
+        mappedBy = "store"
+    )
+    private List<Stock> stocks = new ArrayList<Stock>();
 
 
     // name

@@ -3,6 +3,8 @@ package com.ecommerce.wonders.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.ecommerce.wonders.enums.EnumCategory;
 
 import jakarta.persistence.CascadeType;
@@ -23,6 +25,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="product")
+@DynamicUpdate
 @Getter
 @Setter
 @NoArgsConstructor
@@ -92,7 +95,7 @@ public class Product extends BaseEntity {
     @ManyToOne(
         fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "store_id", nullable = false)
+    @JoinColumn(name = "store_id", nullable = false, updatable = false)
     private Store store;
 
     @OneToMany(

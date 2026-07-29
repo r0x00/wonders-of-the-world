@@ -15,6 +15,7 @@ import com.ecommerce.wonders.dto.AddressDto.ResponseAddressGetAll;
 import com.ecommerce.wonders.dto.AddressDto.UpdateAddress;
 import com.ecommerce.wonders.services.AddressService;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,7 +54,7 @@ public class AddressController {
     @PostMapping("{userId}")
     public void createAddress(
         @PathVariable Long userId,
-        @RequestBody CreateAddress rawJson
+        @Valid @RequestBody CreateAddress rawJson
     ) {
         this.addressService.createAddress(userId, rawJson);
     }
@@ -62,7 +63,7 @@ public class AddressController {
     public void updateAddress(
         @PathVariable Long id,
         @PathVariable Long userId,
-        @RequestBody UpdateAddress rawJson
+        @Valid @RequestBody UpdateAddress rawJson
     ){
         this.addressService.updateAddress(id, userId, rawJson);
     }

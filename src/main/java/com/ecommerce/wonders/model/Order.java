@@ -1,5 +1,7 @@
 package com.ecommerce.wonders.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +16,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "orders")
+@DynamicUpdate
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,13 +30,13 @@ public class Order extends BaseEntity {
     @ManyToOne(
         fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
     @ManyToOne(
         fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false, updatable = false)
     private Product product;
 
     // user

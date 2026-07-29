@@ -9,6 +9,7 @@ import com.ecommerce.wonders.dto.PaymentDto.ResponsePaymentGetAll;
 import com.ecommerce.wonders.dto.PaymentDto.UpdatePayment;
 import com.ecommerce.wonders.services.PaymentService;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,7 @@ public class PaymentController {
     @PostMapping("{userId}")
     public void createPayment(
         @PathVariable Long userId,
-        @RequestBody CreatePayment rawJson
+        @Valid @RequestBody CreatePayment rawJson
     ) {
         this.paymentService.createPayment(userId, rawJson);
     }
@@ -63,7 +64,7 @@ public class PaymentController {
     public void updatePayment(
         @PathVariable Long id,
         @PathVariable Long userId,
-        @RequestBody UpdatePayment rawJson
+        @Valid @RequestBody UpdatePayment rawJson
     ) {
         this.paymentService.updatePayment(id, userId, rawJson);
     }

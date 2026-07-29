@@ -2,6 +2,8 @@ package com.ecommerce.wonders.model;
 
 import java.time.YearMonth;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.ecommerce.wonders.enums.EnumPaymentMethod;
 
 import jakarta.persistence.Column;
@@ -19,6 +21,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "payment")
+@DynamicUpdate
 @Getter
 @Setter
 @NoArgsConstructor
@@ -66,7 +69,7 @@ public class Payment extends BaseEntity {
     @ManyToOne(
         fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id",  nullable = false)
+    @JoinColumn(name = "user_id",  nullable = false, updatable = false)
     private User user;
     
     //user

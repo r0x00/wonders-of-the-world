@@ -2,6 +2,8 @@ package com.ecommerce.wonders.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.ecommerce.wonders.enums.EnumRating;
 
 import jakarta.persistence.Column;
@@ -19,6 +21,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "rating")
+@DynamicUpdate
 @Getter
 @Setter
 @NoArgsConstructor
@@ -51,13 +54,13 @@ public class Rating extends BaseEntity {
     @ManyToOne(
         fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false, updatable = false)
     private Product product;
 
     @ManyToOne(
         fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
 

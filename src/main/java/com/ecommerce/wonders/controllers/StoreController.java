@@ -17,6 +17,7 @@ import com.ecommerce.wonders.dto.StoreDto.ResponseStoreGetAll;
 import com.ecommerce.wonders.dto.StoreDto.UpdateStore;
 import com.ecommerce.wonders.services.StoreService;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 
 @RestController
@@ -30,7 +31,7 @@ public class StoreController {
 
     @GetMapping
     public ResponseEntity<ResponseStoreGetAll> getAllStores(
-        @RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size
     ) {
         ResponseStoreGetAll result = this.storeService.getAllStores(page, size);
@@ -49,7 +50,7 @@ public class StoreController {
 
     @PostMapping
     public void createStore(
-        @RequestBody CreateStore rawJson
+        @Valid @RequestBody CreateStore rawJson
     ) {
         this.storeService.createStore(rawJson);
     }
@@ -57,7 +58,7 @@ public class StoreController {
     @PatchMapping("{id}")
     public void updateStore(
         @PathVariable Long id,
-        @RequestBody UpdateStore rawJson
+        @Valid @RequestBody UpdateStore rawJson
     ) {
         this.storeService.updateStore(id, rawJson);
     }

@@ -10,10 +10,7 @@ public final class StockDto {
     // Stock Update DTO
     public record UpdateStock(
         @NotNull(message = "Quantity cannot be empty")
-        int quantity,
-
-        @NotNull(message = "ProductId cannot be empty")
-        Long productId
+        int quantity
     ){}
 
     // Stock Response DTO

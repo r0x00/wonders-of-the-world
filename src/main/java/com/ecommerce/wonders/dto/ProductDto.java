@@ -19,7 +19,7 @@ public final class ProductDto {
         @NotNull(message = "Price cannot be empty")
         double price,
 
-        @NotEmpty(message = "Category cannot be empty")
+        @NotNull(message = "Category cannot be empty")
         EnumCategory category,
 
         @NotEmpty(message = "Description cannot be empty")
@@ -30,12 +30,8 @@ public final class ProductDto {
         @Size(min = 10, max = 400, message = "Details must be between 10 and 400 characters")
         String details,
 
-        @NotEmpty(message = "Image cannot be empty")
         @Pattern(regexp = "^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$", message = "Invalid image URL format")
-        String image,
-
-        @NotNull(message = "StoreId cannot be empty")
-        Long storeId
+        String image
     ){}
 
     // Product Update DTO
@@ -47,7 +43,7 @@ public final class ProductDto {
         @NotNull(message = "Price cannot be empty")
         double price,
 
-        @NotEmpty(message = "Category cannot be empty")
+        @NotNull(message = "Category cannot be empty")
         EnumCategory category,
 
         @NotEmpty(message = "Description cannot be empty")
@@ -58,7 +54,6 @@ public final class ProductDto {
         @Size(min = 10, max = 400, message = "Details must be between 10 and 400 characters")
         String details,
 
-        @NotEmpty(message = "Image cannot be empty")
         @Pattern(regexp = "^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$", message = "Invalid image URL format")
         String image
     ){}
@@ -72,7 +67,8 @@ public final class ProductDto {
         String description,
         String details,
         String image,
-        Long storeId
+        Long storeId,
+        Long stockId
     ){}
 
     // Product Response Get All DTO
