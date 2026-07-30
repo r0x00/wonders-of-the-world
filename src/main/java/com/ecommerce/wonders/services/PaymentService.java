@@ -3,6 +3,7 @@ package com.ecommerce.wonders.services;
 import com.ecommerce.wonders.exception.BadRequestException;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -77,6 +78,9 @@ public class PaymentService {
         User user = this.userMapper.toEntity(checkUser);
         payment.setUser(user);
 
+        UUID uuid = UUID.randomUUID();
+        payment.setToken(uuid.toString());
+
         payment.setLast4Digits(rawJson.cardNumber().substring(rawJson.cardNumber().length() - 4));
 
         this.paymentRepository.save(payment);
@@ -86,9 +90,7 @@ public class PaymentService {
         Payment payment = this.paymentRepository.findByIdAndUserId(id, userId).orElseThrow(() -> new BadRequestException("Payment not found with ID: " + id));
 
         this.paymentMapper.updateEntityFromDto(rawJson, payment);
-
-        payment.setLast4Digits(rawJson.cardNumber().substring(rawJson.cardNumber().length() - 4));
-
+        
         this.paymentRepository.save(payment);
     }
 
