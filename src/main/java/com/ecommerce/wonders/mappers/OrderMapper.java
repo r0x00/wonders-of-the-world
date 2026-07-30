@@ -1,13 +1,10 @@
 package com.ecommerce.wonders.mappers;
 
-import java.time.LocalDateTime;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.ecommerce.wonders.dto.OrderDto.ResponseOrder;
-import com.ecommerce.wonders.enums.EnumPaymentMethod;
 import com.ecommerce.wonders.model.Address;
 import com.ecommerce.wonders.model.Order;
 import com.ecommerce.wonders.model.Payment;
@@ -16,6 +13,8 @@ import com.ecommerce.wonders.model.User;
 
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
+    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "productId", source = "product.id")
     ResponseOrder toDto(Order order);
 
     Order toEntity(ResponseOrder dto);

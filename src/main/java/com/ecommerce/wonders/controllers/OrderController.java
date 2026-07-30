@@ -2,6 +2,7 @@ package com.ecommerce.wonders.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,5 +44,13 @@ public class OrderController {
         @Valid @RequestBody CreateOrder rawJson
     ) {
         this.orderService.createOrder(userId, productId, rawJson);
+    }
+
+
+    @PatchMapping("status/cancel/{id}")
+    public void cancelOrder(
+        @PathVariable Long id
+    ) {
+        this.orderService.cancelOrder(id);
     }
 }

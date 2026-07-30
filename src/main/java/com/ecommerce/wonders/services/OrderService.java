@@ -17,6 +17,7 @@ import com.ecommerce.wonders.dto.PaymentDto.ResponsePayment;
 import com.ecommerce.wonders.dto.ProductDto.ResponseProduct;
 import com.ecommerce.wonders.dto.StoreDto.ResponseStore;
 import com.ecommerce.wonders.dto.UserDto.ResponseUser;
+import com.ecommerce.wonders.enums.EnumOrderStatus;
 import com.ecommerce.wonders.exception.BadRequestException;
 import com.ecommerce.wonders.mappers.AddressMapper;
 import com.ecommerce.wonders.mappers.OrderMapper;
@@ -123,7 +124,18 @@ public class OrderService {
         this.orderRepository.save(order);
     }
 
+    public void cancelOrder(Long id) {
+        Order order = this.orderRepository.findById(id).orElseThrow(() -> new BadRequestException("Order not found with ID: " + id));
 
-    // cancel order
-    
+        if(order.getStatus() == EnumOrderStatus.CANCELLED) {
+            throw new BadRequestException("Order is already cancelled");
+        }
+
+        if(order.getStatus() == EnumOrderStatus.COMPLETED) {
+            throw new BadRequestException("Order is already completed");
+        }
+
+        order.setStatus(EnumOrderStatus.CANCELLED);
+        this.orderRepository.save(order);
+    }
 }
