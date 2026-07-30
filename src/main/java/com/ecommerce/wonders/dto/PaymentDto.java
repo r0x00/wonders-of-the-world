@@ -30,7 +30,7 @@ public final class PaymentDto {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/yyyy")
         YearMonth expirationDate,
 
-        @NotBlank(message = "Payment Method cannot be empty")
+        @NotNull(message = "Payment Method cannot be empty")
         EnumPaymentMethod paymentMethod
     ){}
 
@@ -50,7 +50,7 @@ public final class PaymentDto {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/yyyy")
         YearMonth expirationDate,
 
-        @NotBlank(message = "Payment Method cannot be empty")
+        @NotNull(message = "Payment Method cannot be empty")
         EnumPaymentMethod paymentMethod
     ){}
 
@@ -61,7 +61,8 @@ public final class PaymentDto {
         String cardHolderName,
         String cvv,
         YearMonth expirationDate,
-        EnumPaymentMethod paymentMethod
+        EnumPaymentMethod paymentMethod,
+        String last4Digits
     ){}
 
     // Payment Response Get All

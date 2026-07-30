@@ -12,7 +12,7 @@ public final class UserDto {
     // User Create DTO 
     public record CreateUser(
         @NotBlank(message = "Name cannot be empty")
-        @Size(min = 3, max = 100, message = "Name must be between 3 and 100 characters")
+        @Size(min = 3, max = 200, message = "Name must be between 3 and 200 characters")
         String name,
 
         @NotBlank(message = "Email cannot be empty")
@@ -24,7 +24,7 @@ public final class UserDto {
     // User Update DTO
     public record UpdateUser(
         @NotBlank(message = "Name cannot be empty")
-        @Size(min = 3, max = 100, message = "Name must be between 3 and 100 characters")
+        @Size(min = 3, max = 200, message = "Name must be between 3 and 200 characters")
         String name, 
 
         @NotBlank(message = "Email cannot be empty")

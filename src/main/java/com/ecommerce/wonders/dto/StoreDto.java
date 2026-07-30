@@ -12,7 +12,7 @@ public final class StoreDto {
     // Store Create DTO
     public record CreateStore(
         @NotEmpty(message = "Name cannot be empty")
-        @Size(min = 10, max = 200, message = "Description must be between 10 and 500 characters")
+        @Size(min = 2, max = 200, message = "Name must be between 2 and 500 characters")
         String name,
 
         @NotEmpty(message = "Description cannot be empty")
@@ -26,7 +26,7 @@ public final class StoreDto {
     // Store Update DTO
     public record UpdateStore(
         @NotEmpty(message = "Name cannot be empty")
-        @Size(min = 10, max = 200, message = "Description must be between 10 and 500 characters")
+        @Size(min = 2, max = 200, message = "Name must be between 2 and 500 characters")
         String name,
 
         @NotEmpty(message = "Description cannot be empty")

@@ -32,12 +32,20 @@ public class Payment extends BaseEntity {
     )
     private Long id;
     
+    // Remove card number and cvv and add a aleatory token
     @Column(
         nullable = false,
         unique = false,
         length = 19
     )
     private String cardNumber;
+
+    @Column(
+        nullable = false,
+        unique = false,
+        length = 4
+    )
+    private String last4Digits;
 
     @Column(
         nullable = false,

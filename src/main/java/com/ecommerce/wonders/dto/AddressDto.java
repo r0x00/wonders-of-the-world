@@ -10,8 +10,12 @@ public final class AddressDto {
 
     // Address Create DTO
     public record CreateAddress(
+        @NotBlank(message = "Name cannot be empty")
+        @Size(min = 3, max = 200, message = "Name must be between 3 and 200 characters")
+        String name,
+
         @NotBlank(message = "Street Address cannot be empty")
-        @Size(min = 3, max = 300, message = "Street Address must be between 3 and 100 characters")
+        @Size(min = 3, max = 300, message = "Street Address must be between 3 and 300 characters")
         String streetAddress,
 
         @NotBlank(message = "City cannot be empty")
@@ -33,6 +37,10 @@ public final class AddressDto {
 
     // Address Update DTO
     public record UpdateAddress(
+        @NotBlank(message = "Name cannot be empty")
+        @Size(min = 3, max = 200, message = "Name must be between 3 and 200 characters")
+        String name,
+
         @NotBlank(message = "Street Address cannot be empty")
         @Size(min = 3, max = 300, message = "Street Address must be between 3 and 100 characters")
         String streetAddress,
@@ -57,6 +65,7 @@ public final class AddressDto {
     // Address Response DTO
     public record ReponseAddress(
         Long id,
+        String name,
         String streetAddress,
         String city,
         String state,

@@ -1,7 +1,13 @@
 package com.ecommerce.wonders.model;
 
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.ecommerce.wonders.enums.EnumOrderStatus;
+import com.ecommerce.wonders.enums.EnumPaymentMethod;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +32,122 @@ public class Order extends BaseEntity {
         strategy = GenerationType.IDENTITY
     )
     private Long id;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private int quantity;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private EnumOrderStatus status = EnumOrderStatus.PENDING_PAYMENT;
+
+    @Column(
+        nullable = false,
+        unique = false
+    ) 
+    private LocalDateTime deliveryDate;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private double total;
+
+
+    // product snapshot data
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private double productPrice;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String productName;
+
+    @Column(
+        nullable = true,
+        unique = false
+    )
+    private String productImage;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String productStoreName;
+
+
+    // user payment snapshot data
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private EnumPaymentMethod userPaymentMethod;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String userPaymentLast4Digits;
+
+
+    // user address snapshot data
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String userAddressName;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String userAddressStreetAddress;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String userAddressCity;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String userAddressState;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String userAddressCountry;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String userAddressZipCode;
+
+
+    // user snapshot data
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String userName;
+
+    @Column(
+        nullable = false,
+        unique = false
+    )
+    private String userEmail;
 
     @ManyToOne(
         fetch = FetchType.LAZY
