@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public final class UserDto {
@@ -17,7 +18,12 @@ public final class UserDto {
 
         @NotBlank(message = "Email cannot be empty")
         @Email(message = "Invalid email format")
-        String email
+        String email,
+
+        @NotBlank(message = "Password cannot be empty")
+        @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
+        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d!#@&]{8,100}$", message = "Password must contain at least one lowercase letter, one uppercase letter, and one digit")
+        String password
     ) {}
 
 
@@ -31,6 +37,24 @@ public final class UserDto {
         @Email(message = "Invalid email format")
         String email
     ) {}
+
+
+    // User Update Password DTO
+    public record UpdateUserPassword(
+        @NotBlank(message = "Id cannot be empty")
+        String id,
+
+        @NotBlank(message = "Password cannot be empty")
+        @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
+        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d!#@&]{8,100}$", message = "Password must contain at least one lowercase letter, one uppercase letter, and one digit")
+        String password, 
+
+        @NotBlank(message = "Password cannot be empty")
+        @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
+        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d!#@&]{8,100}$", message = "Password must contain at least one lowercase letter, one uppercase letter, and one digit")
+        String currentPassword
+    ) {}
+
 
     // User Response DTO
     public record ResponseUser(        

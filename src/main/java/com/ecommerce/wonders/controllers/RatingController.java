@@ -1,6 +1,7 @@
 package com.ecommerce.wonders.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,7 +16,7 @@ import com.ecommerce.wonders.dto.RatingDto.CreateRatingDto;
 import com.ecommerce.wonders.dto.RatingDto.ResponseRating;
 import com.ecommerce.wonders.dto.RatingDto.ResponseRatingGetAll;
 import com.ecommerce.wonders.dto.RatingDto.UpdateRatingDto;
-
+import com.ecommerce.wonders.model.User;
 import com.ecommerce.wonders.services.RatingService;
 
 import jakarta.validation.Valid;
@@ -42,12 +43,15 @@ public class RatingController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("user/{userId}")
+    @GetMapping("user")
     public ResponseEntity<ResponseRatingGetAll> geAlltRatingsFromUser(
-        @PathVariable Long userId, 
         @RequestParam(defaultValue = "0") int page, 
-        @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size
+        @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size,
+        Authentication authentication
     ) {
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+
         ResponseRatingGetAll result = this.ratingService.geAlltRatingsFromUser(userId, page, size);
 
         return ResponseEntity.ok(result);
@@ -63,12 +67,15 @@ public class RatingController {
     }
 
 
-    @PostMapping("user/{userId}/product/{productId}")
+    @PostMapping("user/product/{productId}")
     public void createRating(
-        @PathVariable Long userId, 
         @PathVariable Long productId, 
-        @Valid @RequestBody CreateRatingDto rawJson
+        @Valid @RequestBody CreateRatingDto rawJson,
+        Authentication authentication
     ) {
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+
         this.ratingService.createRating(userId, productId, rawJson);
 
     }

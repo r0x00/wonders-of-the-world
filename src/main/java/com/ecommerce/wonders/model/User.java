@@ -1,9 +1,15 @@
 package com.ecommerce.wonders.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import com.ecommerce.wonders.enums.EnumUserPermission;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -70,6 +76,18 @@ public class User extends BaseEntity {
         orphanRemoval = true
     )
     private List<Payment> payments = new ArrayList<Payment>();
+
+    @Column(
+        nullable = false
+    )
+    private EnumUserPermission permission = EnumUserPermission.COMMON;
+
+    @Column(
+        nullable = false,
+        length = 100
+    )
+    @JsonIgnore 
+    private String password;
 
     //rating
     //order

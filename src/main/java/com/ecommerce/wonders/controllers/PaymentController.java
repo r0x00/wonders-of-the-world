@@ -7,12 +7,14 @@ import com.ecommerce.wonders.dto.PaymentDto.CreatePayment;
 import com.ecommerce.wonders.dto.PaymentDto.ResponsePayment;
 import com.ecommerce.wonders.dto.PaymentDto.ResponsePaymentGetAll;
 import com.ecommerce.wonders.dto.PaymentDto.UpdatePayment;
+import com.ecommerce.wonders.model.User;
 import com.ecommerce.wonders.services.PaymentService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,49 +33,64 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    @GetMapping("{userId}")
+    @GetMapping
     public ResponseEntity<ResponsePaymentGetAll> getAllPayments(
-        @PathVariable Long userId,
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size
+        @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size,
+        Authentication authentication
     ) {
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+
         ResponsePaymentGetAll result = this.paymentService.getAllPayments(userId, page, size);
 
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("{userId}/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<ResponsePayment> getPayment(
-        @PathVariable Long userId,
-        @PathVariable Long id
+        @PathVariable Long id,
+        Authentication authentication
     ) {
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+        
         ResponsePayment result = this.paymentService.getPayment(id, userId);
         return ResponseEntity.ok(result);
     }
 
 
-    @PostMapping("{userId}")
+    @PostMapping
     public void createPayment(
-        @PathVariable Long userId,
-        @Valid @RequestBody CreatePayment rawJson
+        @Valid @RequestBody CreatePayment rawJson,
+        Authentication authentication
     ) {
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+
         this.paymentService.createPayment(userId, rawJson);
     }
 
-    @PatchMapping("{userId}/{id}")
+    @PatchMapping("{id}")
     public void updatePayment(
         @PathVariable Long id,
-        @PathVariable Long userId,
-        @Valid @RequestBody UpdatePayment rawJson
+        @Valid @RequestBody UpdatePayment rawJson,
+        Authentication authentication
     ) {
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+
         this.paymentService.updatePayment(id, userId, rawJson);
     }
 
-    @DeleteMapping("{userId}/{id}")
+    @DeleteMapping("{id}")
     public void deletePayment(
         @PathVariable Long id,
-        @PathVariable Long userId
+        Authentication authentication
     ){
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+
         this.paymentService.deletePayment(id, userId);
     }
 }

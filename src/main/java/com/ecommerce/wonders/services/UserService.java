@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.JpaSort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;        
 
 import com.ecommerce.wonders.dto.UserDto.CreateUser;
@@ -24,13 +25,16 @@ import com.ecommerce.wonders.repository.UserRepository;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(
         UserRepository userRepository, 
-        UserMapper userMapper
+        UserMapper userMapper,
+        PasswordEncoder passwordEncoder
     ) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public ResponseUserGetAll getAllUsers(int page, int size) {
@@ -57,6 +61,14 @@ public class UserService {
         return result;
     }
 
+    public ResponseUser getUserByEmail(String email) {
+        User user = this.userRepository.findUserByEmail(email).orElseThrow(() -> new BadRequestException("User not found with email: " + email));
+
+        ResponseUser result = this.userMapper.toDto(user);
+
+        return result; 
+    }
+
     public void updateUserById(Long id, UpdateUser rawJson) {
         User user = this.userRepository.findById(id).orElseThrow(() -> new BadRequestException("User not found with ID: " + id));
 
@@ -73,6 +85,9 @@ public class UserService {
         }
         
         User user = this.userMapper.toEntityFromCreateDto(rawJson);
+
+        String hashedPassword = this.passwordEncoder.encode(rawJson.password());
+        user.setPassword(hashedPassword);
 
         this.userRepository.save(user);
     }
