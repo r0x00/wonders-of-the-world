@@ -98,16 +98,20 @@ public class OrderService {
     }
 
     public void createOrder(Long userId, Long productId, CreateOrder rawJson) {
-        ResponseUser userResponse = this.userService.getUserById(userId);
-        User user = this.userMapper.toEntity(userResponse);
-
-       ReponseAddress responseAddress = this.addressService.getAddress(rawJson.addressId(), userId);
-        Address address = this.addressMapper.toEntity(responseAddress);
-
         ResponseProduct responseProduct = this.productService.getProductById(productId);
         Product product = this.productMapper.toEntity(responseProduct);
 
         ResponseStore responseStore = this.storeService.getStoreById(responseProduct.storeId());
+
+        if(responseStore.userId() == userId) {
+            throw new BadRequestException("You can't buy your own product");
+        }
+
+        ResponseUser userResponse = this.userService.getUserById(userId);
+        User user = this.userMapper.toEntity(userResponse);
+
+        ReponseAddress responseAddress = this.addressService.getAddress(rawJson.addressId(), userId);
+        Address address = this.addressMapper.toEntity(responseAddress);
 
         ResponsePayment ResponsePayment = this.paymentService.getPayment(rawJson.paymentId(), userId);
         Payment payment = this.paymentMapper.toEntity(ResponsePayment);

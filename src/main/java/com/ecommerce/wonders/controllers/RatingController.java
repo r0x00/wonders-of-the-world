@@ -1,6 +1,7 @@
 package com.ecommerce.wonders.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,6 +69,7 @@ public class RatingController {
 
 
     @PostMapping("user/product/{productId}")
+    @PreAuthorize("@ratingService.userAlreadyRatedProduct(#productId, authentication.principal.id) == false")
     public void createRating(
         @PathVariable Long productId, 
         @Valid @RequestBody CreateRatingDto rawJson,
@@ -81,6 +83,7 @@ public class RatingController {
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("@ratingService.isUserRatingOwner(#id, authentication.principal.id)")
     public void updateRating(
         @PathVariable Long id, 
         @Valid @RequestBody UpdateRatingDto rawJson
@@ -89,6 +92,7 @@ public class RatingController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN') or @ratingService.isUserRatingOwner(#id, authentication.principal.id)")
     public void deleteRating(
         @PathVariable Long id
     ) {

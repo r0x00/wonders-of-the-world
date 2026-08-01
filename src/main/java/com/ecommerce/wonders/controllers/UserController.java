@@ -3,6 +3,7 @@ package com.ecommerce.wonders.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +18,8 @@ import com.ecommerce.wonders.dto.UserDto.CreateUser;
 import com.ecommerce.wonders.dto.UserDto.ResponseUser;
 import com.ecommerce.wonders.dto.UserDto.ResponseUserGetAll;
 import com.ecommerce.wonders.dto.UserDto.UpdateUser;
+import com.ecommerce.wonders.dto.UserDto.UpdateUserPassword;
+import com.ecommerce.wonders.dto.UserDto.UpdateUserPermission;
 import com.ecommerce.wonders.services.UserService;
 
 import jakarta.validation.Valid;
@@ -32,6 +35,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseUserGetAll> getAllUsers(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size
@@ -52,6 +56,7 @@ public class UserController {
 
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public void updateUserById(
         @PathVariable Long id, 
         @Valid @RequestBody UpdateUser rawJson
@@ -66,7 +71,27 @@ public class UserController {
         this.userService.createUser(rawJson);
     }
 
+
+    @PatchMapping("/{id}/permission")
+    @PreAuthorize("hasRole('ADMIN') and #id != authentication.principal.id")
+    public void updateUserPermission(
+        @PathVariable Long id, 
+        @Valid @RequestBody UpdateUserPermission rawJson
+    ) {
+        this.userService.updateUserPermission(id, rawJson);
+    }
+
+    @PatchMapping("/{id}/password")
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
+    public void updateUserPassword(
+        @PathVariable Long id, 
+        @Valid @RequestBody UpdateUserPassword rawJson
+    ) {
+        this.userService.updateUserPassword(id, rawJson);
+    }
+
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUserById(
         @PathVariable Long id
     ) {

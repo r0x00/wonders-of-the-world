@@ -3,6 +3,7 @@ package com.ecommerce.wonders.dto;
 import java.util.List;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -20,7 +21,10 @@ public final class StoreDto {
         String description,
 
         @Pattern(regexp = "^https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$", message = "Invalid image URL format")
-        String image
+        String image,
+
+        @NotNull(message = "User Id cannot be empty")
+        Long userId
     ){}
 
     // Store Update DTO
@@ -42,7 +46,8 @@ public final class StoreDto {
         Long id,
         String name,
         String description,
-        String image
+        String image,
+        Long userId
     ){}
 
     // Store Response Get All DTO

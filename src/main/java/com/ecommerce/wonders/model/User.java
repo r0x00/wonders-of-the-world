@@ -17,7 +17,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -80,7 +82,7 @@ public class User extends BaseEntity {
     @Column(
         nullable = false
     )
-    private EnumUserPermission permission = EnumUserPermission.COMMON;
+    private EnumUserPermission permission = EnumUserPermission.ROLE_CUSTOMER;
 
     @Column(
         nullable = false,
@@ -88,6 +90,14 @@ public class User extends BaseEntity {
     )
     @JsonIgnore 
     private String password;
+
+    @OneToOne(
+        mappedBy = "user",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @JoinColumn(name = "store_id", nullable = true)
+    private Store store;
 
     //rating
     //order

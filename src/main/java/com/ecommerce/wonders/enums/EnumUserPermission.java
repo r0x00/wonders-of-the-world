@@ -1,8 +1,7 @@
 package com.ecommerce.wonders.enums;
 
 public enum EnumUserPermission {
-    COMMON,
-    ADMIN,
-    STORE_ADMIN,
-    STORE_USER
+    ROLE_ADMIN,
+    ROLE_CUSTOMER,
+    ROLE_SELLER
 }

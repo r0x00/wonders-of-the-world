@@ -154,4 +154,12 @@ public class ProductService {
 
         this.productRepository.deleteById(id);
     }
+
+    public boolean isUserProductOwner(Long id, Long userId) {
+        Product product = this.productRepository.findById(id).orElseThrow(() -> new BadRequestException("Product not found with ID: " + id));
+
+        boolean result = product.getStore().getUser().getId().equals(userId);
+
+        return result;
+    }
 }

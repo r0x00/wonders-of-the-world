@@ -2,8 +2,11 @@ package com.ecommerce.wonders.dto;
 
 import java.util.List;
 
+import com.ecommerce.wonders.enums.EnumUserPermission;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -41,9 +44,6 @@ public final class UserDto {
 
     // User Update Password DTO
     public record UpdateUserPassword(
-        @NotBlank(message = "Id cannot be empty")
-        String id,
-
         @NotBlank(message = "Password cannot be empty")
         @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
         @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d!#@&]{8,100}$", message = "Password must contain at least one lowercase letter, one uppercase letter, and one digit")
@@ -55,12 +55,18 @@ public final class UserDto {
         String currentPassword
     ) {}
 
+    // User Update Password DTO
+    public record UpdateUserPermission(
+        @NotNull(message = "Permission cannot be empty")
+        EnumUserPermission permission
+    ) {}
 
     // User Response DTO
     public record ResponseUser(        
         Long id,
         String name,
-        String email
+        String email,
+        EnumUserPermission permission
     ) {}
 
     // User Response Get All DTO

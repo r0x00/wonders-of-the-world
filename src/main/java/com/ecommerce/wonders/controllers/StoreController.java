@@ -1,6 +1,7 @@
 package com.ecommerce.wonders.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -49,6 +50,7 @@ public class StoreController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public void createStore(
         @Valid @RequestBody CreateStore rawJson
     ) {
@@ -56,6 +58,7 @@ public class StoreController {
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER') and @storeService.isUserStoreOwner(#id, authentication.principal.id)")
     public void updateStore(
         @PathVariable Long id,
         @Valid @RequestBody UpdateStore rawJson
@@ -64,6 +67,7 @@ public class StoreController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER') and @storeService.isUserStoreOwner(#id, authentication.principal.id)")
     public void deleteStore(
         @PathVariable Long id
     ) {

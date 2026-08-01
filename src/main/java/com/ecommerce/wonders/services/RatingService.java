@@ -13,6 +13,7 @@ import com.ecommerce.wonders.dto.RatingDto.CreateRatingDto;
 import com.ecommerce.wonders.dto.RatingDto.ResponseRating;
 import com.ecommerce.wonders.dto.RatingDto.ResponseRatingGetAll;
 import com.ecommerce.wonders.dto.RatingDto.UpdateRatingDto;
+import com.ecommerce.wonders.dto.StoreDto.ResponseStore;
 import com.ecommerce.wonders.dto.UserDto.ResponseUser;
 import com.ecommerce.wonders.exception.BadRequestException;
 import com.ecommerce.wonders.mappers.ProductMapper;
@@ -32,6 +33,7 @@ public class RatingService {
     private final ProductService productService;
     private final ProductMapper productMapper;
     private final UserMapper userMapper;
+    private final StoreService storeService;
 
     public RatingService(
         RatingRepository ratingRepository,
@@ -39,7 +41,8 @@ public class RatingService {
         UserService userService,
         ProductService productService,
         ProductMapper productMapper,
-        UserMapper userMapper
+        UserMapper userMapper,
+        StoreService storeService
     ) {
         this.ratingRepository = ratingRepository;
         this.ratingMapper = ratingMapper;
@@ -47,6 +50,7 @@ public class RatingService {
         this.productService = productService;
         this.productMapper = productMapper;
         this.userMapper = userMapper;
+        this.storeService = storeService;
     }
 
     public ResponseRatingGetAll getAllRatingsFromProduct(Long productId, int page, int size) {
@@ -90,11 +94,17 @@ public class RatingService {
     }
 
     public void createRating(Long userId, Long productId, CreateRatingDto rawJson) {
-        Rating rating = this.ratingMapper.toEntityFromCreateDto(rawJson);
-
         ResponseProduct responseProduct = this.productService.getProductById(productId);
 
         Product product = this.productMapper.toEntity(responseProduct);
+
+        Rating rating = this.ratingMapper.toEntityFromCreateDto(rawJson);
+
+        ResponseStore responseStore = this.storeService.getStoreById(responseProduct.storeId());
+
+        if(responseStore.userId() == userId) {
+            throw new BadRequestException("You can't rate your own product");
+        }
 
         rating.setProduct(product);
 
@@ -119,6 +129,20 @@ public class RatingService {
         this.ratingRepository.findById(id).orElseThrow(() -> new BadRequestException("Rating not found with this ID: " + id));
 
         this.ratingRepository.deleteById(id);
+    }
+
+    public boolean isUserRatingOwner(Long id, Long userId) {
+        Rating rating = this.ratingRepository.findById(id).orElseThrow(() -> new BadRequestException("Rating not found with this ID: " + id));
+        
+        boolean result = rating.getUser().getId().equals(userId);
+
+        return result;
+    }
+
+    public boolean userAlreadyRatedProduct(Long productId, Long userId) {
+        Rating rating = this.ratingRepository.findByUserIdAndProductId(userId, userId).orElse(null);
+        
+        return rating != null;
     }
 }
 

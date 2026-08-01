@@ -54,7 +54,6 @@ public class OrderController {
         this.orderService.createOrder(userId, productId, rawJson);
     }
 
-
     @PatchMapping("status/cancel/{id}")
     public void cancelOrder(
         @PathVariable Long id

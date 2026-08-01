@@ -1,6 +1,7 @@
 package com.ecommerce.wonders.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class StockController {
 
 
     @GetMapping("store/{storeId}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER') and @storeService.isUserStoreOwner(#storeId, authentication.principal.id)")
     public ResponseEntity<ResponseStockGetAll> getAllStocksFromStore(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") @Max(value = 200, message = "Size must be less than 200") int size,
@@ -39,6 +41,7 @@ public class StockController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER') and @stockService.isUserStockOwner(#id, authentication.principal.id)")
     public ResponseEntity<ResponseStock> getStockById(
         @PathVariable Long id
     ) {
@@ -49,6 +52,7 @@ public class StockController {
 
 
     @GetMapping("product/{productId}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER') and @productService.isUserProductOwner(#productId, authentication.principal.id)")
     public ResponseEntity<ResponseStock> getStockByProductId(
         @PathVariable Long productId
     ) {
@@ -58,6 +62,7 @@ public class StockController {
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER') and @stockService.isUserStockOwner(#id, authentication.principal.id)")
     public void updateStock(
         @PathVariable Long id,
         @Valid @RequestBody UpdateStock rawJson

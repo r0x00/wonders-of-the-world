@@ -14,6 +14,9 @@ import com.ecommerce.wonders.dto.UserDto.CreateUser;
 import com.ecommerce.wonders.dto.UserDto.ResponseUser;
 import com.ecommerce.wonders.dto.UserDto.ResponseUserGetAll;
 import com.ecommerce.wonders.dto.UserDto.UpdateUser;
+import com.ecommerce.wonders.dto.UserDto.UpdateUserPassword;
+import com.ecommerce.wonders.dto.UserDto.UpdateUserPermission;
+import com.ecommerce.wonders.enums.EnumUserPermission;
 import com.ecommerce.wonders.exception.BadRequestException;
 import com.ecommerce.wonders.mappers.UserMapper;
 import com.ecommerce.wonders.model.User;
@@ -35,6 +38,18 @@ public class UserService {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+
+        if(this.userRepository.findUserByEmail("admin@wonders.com").isEmpty()) {
+            this.createUser(new CreateUser(
+                "admin", 
+                "admin@wonders.com", 
+                "12345678aA@"
+            ));
+
+            ResponseUser admin = this.getUserByEmail("admin@wonders.com");
+
+            this.updateUserPermission(admin.id(), new UpdateUserPermission(EnumUserPermission.ROLE_ADMIN));
+        }
     }
 
     public ResponseUserGetAll getAllUsers(int page, int size) {
@@ -85,6 +100,33 @@ public class UserService {
         }
         
         User user = this.userMapper.toEntityFromCreateDto(rawJson);
+
+        String hashedPassword = this.passwordEncoder.encode(rawJson.password());
+        user.setPassword(hashedPassword);
+
+        this.userRepository.save(user);
+    }
+
+    public void updateUserPermission(Long id, UpdateUserPermission rawJson) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new BadRequestException("User not found with ID: " + id));
+
+        if(user.getStore() != null) {
+            throw new BadRequestException("You cannot alter the permission of a seller with a store.");
+        }
+
+        this.userMapper.updateEntityFromUpdatePermissionDto(rawJson, user);
+
+        this.userRepository.save(user);
+    }
+
+    public void updateUserPassword(Long id, UpdateUserPassword rawJson) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new BadRequestException("User not found with ID: " + id));
+
+        Boolean isSamePassword = this.passwordEncoder.matches(rawJson.currentPassword(), user.getPassword());
+
+        if(!isSamePassword) {
+            throw new BadRequestException("The current password is wrong.");
+        }
 
         String hashedPassword = this.passwordEncoder.encode(rawJson.password());
         user.setPassword(hashedPassword);

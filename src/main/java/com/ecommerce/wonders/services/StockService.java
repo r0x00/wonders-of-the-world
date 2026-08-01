@@ -81,4 +81,13 @@ public class StockService {
 
         this.stockRepository.save(stock);
     }
+
+
+    public boolean isUserStockOwner(Long id, Long userId) {
+        Stock stock = this.stockRepository.findById(id).orElseThrow(() -> new BadRequestException("Stock not found with ID: " + id));
+
+        boolean result = stock.getStore().getUser().getId().equals(userId);
+
+        return result;
+    }
 }
