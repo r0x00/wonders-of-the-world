@@ -4,7 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.wonders.dto.AuthDto.LoginRequest;
-import com.ecommerce.wonders.dto.UserDto.ResponseUser;
 import com.ecommerce.wonders.exception.BadRequestException;
 import com.ecommerce.wonders.mappers.UserMapper;
 import com.ecommerce.wonders.model.User;

@@ -48,6 +48,15 @@ public final class PaymentDto {
         EnumPaymentMethod paymentMethod
     ){}
 
+    // Payment Create SQS DTO
+    public record CreateSqsPayment(
+        @NotNull(message = "Payment Id cannot be empty")
+        Long paymentId,
+
+        @NotNull(message = "Order Id cannot be empty")
+        Long orderId
+    ){}
+
     // Payment Response DTO
     public record ResponsePayment(
         Long id,

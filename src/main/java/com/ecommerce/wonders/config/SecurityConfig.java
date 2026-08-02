@@ -38,6 +38,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()    
                 .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                .requestMatchers(HttpMethod.GET, "/store").permitAll()
+                .requestMatchers(HttpMethod.GET, "/store/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/rating/product/{productId}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/rating/{id}").permitAll()
                 .requestMatchers("/error").permitAll()
                 .anyRequest().authenticated()
             )

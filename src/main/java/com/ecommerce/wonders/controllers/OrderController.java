@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.wonders.dto.OrderDto.CreateOrder;
+import com.ecommerce.wonders.dto.OrderDto.ResponseOrder;
 import com.ecommerce.wonders.dto.OrderDto.ResponseOrderGetAll;
 import com.ecommerce.wonders.model.User;
 import com.ecommerce.wonders.services.OrderService;
@@ -38,6 +39,20 @@ public class OrderController {
         Long userId = user.getId();
 
         ResponseOrderGetAll result = this.orderService.getAllOrdersFromUser(userId, page, size);
+
+        return ResponseEntity.ok(result);
+    }
+
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<ResponseOrder> getOrderByIdAndUserId(
+        @PathVariable Long id,
+        Authentication authentication
+    ) {
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+
+        ResponseOrder result = this.orderService.getOrderByIdAndUserId(id, userId);
 
         return ResponseEntity.ok(result);
     }

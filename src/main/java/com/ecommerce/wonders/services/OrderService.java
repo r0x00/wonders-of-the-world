@@ -2,6 +2,7 @@ package com.ecommerce.wonders.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,7 +46,7 @@ public class OrderService {
     private final AddressMapper addressMapper;
     private final PaymentMapper paymentMapper;
     private final StoreService storeService;
-
+    private final SqsStockProducerService sqsStockProducerService;
 
     public OrderService(
         OrderRepository orderRepository,
@@ -58,7 +59,8 @@ public class OrderService {
         AddressMapper addressMapper,
         PaymentMapper paymentMapper,
         PaymentService paymentService,
-        StoreService storeService
+        StoreService storeService,
+        SqsStockProducerService sqsStockProducerService
     ) {
         this.orderRepository = orderRepository;
         this.userService = userService;
@@ -71,6 +73,7 @@ public class OrderService {
         this.paymentMapper = paymentMapper;
         this.paymentService = paymentService;
         this.storeService = storeService;
+        this.sqsStockProducerService = sqsStockProducerService;
     }
 
     public ResponseOrderGetAll getAllOrdersFromUser(Long userId, int page, int size) {
@@ -85,6 +88,18 @@ public class OrderService {
         Long count = orders.getTotalElements();
 
         ResponseOrderGetAll result = new ResponseOrderGetAll(values, count);
+
+        return result;
+    }
+
+    public ResponseOrder getOrderByIdAndUserId(Long id, Long userId) {
+        Order order = this.orderRepository.findById(id).orElseThrow(() -> new BadRequestException("Order not found with ID: " + id));
+
+        if(!order.getUser().getId().equals(userId)) {
+            throw new BadRequestException("Order not found with ID: " + id);
+        }
+
+        ResponseOrder result = this.orderMapper.toDto(order);
 
         return result;
     }
@@ -125,7 +140,9 @@ public class OrderService {
         order.setQuantity(rawJson.quantity());
         order.setDeliveryDate(LocalDateTime.now().plusDays(3));
 
-        this.orderRepository.save(order);
+        Order savedOrder = this.orderRepository.save(order);
+
+        this.sqsStockProducerService.sendMessageToCheckStockQueue(savedOrder.getId(), payment.getId());
     }
 
     public void cancelOrder(Long id) {
@@ -140,6 +157,51 @@ public class OrderService {
         }
 
         order.setStatus(EnumOrderStatus.CANCELLED);
+        this.orderRepository.save(order);
+    }
+
+    public void completeOrder(Long id) {
+        Order order = this.orderRepository.findById(id).orElseThrow(() -> new BadRequestException("Order not found with ID: " + id));
+
+        if(order.getStatus() == EnumOrderStatus.COMPLETED) {
+            throw new BadRequestException("Order is already completed");
+        }
+
+        order.setStatus(EnumOrderStatus.COMPLETED);
+        this.orderRepository.save(order);
+    }
+
+    public void orderPaymentFailed(Long id) {
+        Order order = this.orderRepository.findById(id).orElseThrow(() -> new BadRequestException("Order not found with ID: " + id));
+
+        if(order.getStatus() == EnumOrderStatus.COMPLETED) {
+            throw new BadRequestException("Order is already completed");
+        }
+
+        if(order.getStatus() == EnumOrderStatus.CANCELLED) {
+            throw new BadRequestException("Order is already cancelled");
+        }
+
+        if(order.getStatus() == EnumOrderStatus.PAYMENT_CONFIRMED) {
+            throw new BadRequestException("Payment is already confirmed");
+        }
+
+        order.setStatus(EnumOrderStatus.PAYMENT_FAILED);
+        this.orderRepository.save(order);
+    }
+
+    public void orderPaymentConfirmed(Long id) {
+        Order order = this.orderRepository.findById(id).orElseThrow(() -> new BadRequestException("Order not found with ID: " + id));
+
+        if(order.getStatus() == EnumOrderStatus.COMPLETED) {
+            throw new BadRequestException("Order is already completed");
+        }
+
+        if(order.getStatus() == EnumOrderStatus.CANCELLED) {
+            throw new BadRequestException("Order is already cancelled");
+        }
+
+        order.setStatus(EnumOrderStatus.PAYMENT_CONFIRMED);
         this.orderRepository.save(order);
     }
 }
