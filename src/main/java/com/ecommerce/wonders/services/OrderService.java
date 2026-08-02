@@ -1,13 +1,16 @@
 package com.ecommerce.wonders.services;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.JpaSort;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.wonders.dto.AddressDto.ReponseAddress;
@@ -32,6 +35,7 @@ import com.ecommerce.wonders.model.Payment;
 import com.ecommerce.wonders.model.Product;
 import com.ecommerce.wonders.model.User;
 import com.ecommerce.wonders.repository.OrderRepository;
+
 
 @Service
 public class OrderService {
@@ -138,7 +142,7 @@ public class OrderService {
         order.setProductStoreName(responseStore.name());
         order.setTotal(rawJson.quantity() * product.getPrice());
         order.setQuantity(rawJson.quantity());
-        order.setDeliveryDate(LocalDateTime.now().plusDays(3));
+        order.setDeliveryDate(LocalDate.now().plusDays(3));
 
         Order savedOrder = this.orderRepository.save(order);
 
@@ -203,5 +207,16 @@ public class OrderService {
 
         order.setStatus(EnumOrderStatus.PAYMENT_CONFIRMED);
         this.orderRepository.save(order);
+    }
+
+    // Simulate that the order is delivered when the delivery date is reached
+    @EventListener(ApplicationReadyEvent.class)
+    @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
+    public void simulateOrderCompletion() {
+        LocalDate currentDate = LocalDate.now();
+
+        this.orderRepository.updateStatusForDeliveryDate(currentDate, EnumOrderStatus.COMPLETED);
+
     }
 }

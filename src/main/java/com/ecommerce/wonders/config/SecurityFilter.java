@@ -6,7 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.ecommerce.wonders.exception.BadRequestException;
 import com.ecommerce.wonders.model.User;
 import com.ecommerce.wonders.repository.UserRepository;
 import com.ecommerce.wonders.services.TokenService;

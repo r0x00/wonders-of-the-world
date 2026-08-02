@@ -1,6 +1,6 @@
 package com.ecommerce.wonders.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -49,7 +49,7 @@ public class Order extends BaseEntity {
         nullable = false,
         unique = false
     ) 
-    private LocalDateTime deliveryDate;
+    private LocalDate deliveryDate;
 
     @Column(
         nullable = false,

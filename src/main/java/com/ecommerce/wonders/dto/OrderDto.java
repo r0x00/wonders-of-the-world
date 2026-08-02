@@ -1,6 +1,6 @@
 package com.ecommerce.wonders.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.ecommerce.wonders.enums.EnumOrderStatus;
@@ -38,7 +38,7 @@ public final class OrderDto {
         Long productId,
         int quantity,
         EnumOrderStatus status,
-        LocalDateTime deliveryDate,
+        LocalDate deliveryDate,
         double total,
         double productPrice,
         String productName,

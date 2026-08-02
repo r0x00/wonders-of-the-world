@@ -1,0 +1,1446 @@
+{
+	"info": {
+		"_postman_id": "4fc8d10d-4a97-4b7d-a8be-073f7a170e3b",
+		"name": "Wonders of The World",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20863727"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Auth JWT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.token) {",
+									"    pm.collectionVariables.set(\"bearerToken\", result.token)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test4@gmail.com\",\n    \"password\": \"12345678aA@\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/auth/login/jwt",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"auth",
+								"login",
+								"jwt"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"userId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/users?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/users/{{userId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test4@gmail.com\",\n    \"name\": \"test1\",\n    \"cpf\": \"12345678924\",\n    \"password\": \"12345678aA@\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@gmail.com\",\n    \"name\": \"test2\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/users/{{userId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Permission",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"permission\": \"ROLE_CUSTOMER\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/users/{{userId}}/permission",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"users",
+								"{{userId}}",
+								"permission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Permission Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"12345678aA@\",\n    \"currentPassword\": \"12345678aA@\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/users/{{userId}}/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"users",
+								"{{userId}}",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/users/{{userId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Address",
+			"item": [
+				{
+					"name": "Get Current User Addresses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"userAddressId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/address?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"address"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User Address",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/address/{{userAddressId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"address",
+								"{{userAddressId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Current User Address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"User 1\",\n    \"streetAddress\": \"Avenida Brasil, 4236, Apto 647\",\n    \"city\": \"Natal\",\n    \"state\": \"MT\",\n    \"country\": \"BR\",\n    \"zipCode\": \"39989-650\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/address",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Current User Address",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"User 1\",\n    \"streetAddress\": \"Avenida Brasil, 4235, Apto 647\",\n    \"city\": \"Natal\",\n    \"state\": \"MT\",\n    \"country\": \"BR\",\n    \"zipCode\": \"39989-651\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/address/{{userAddressId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"address",
+								"{{userAddressId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Current User Address",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/address/{{userAddressId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"address",
+								"{{userAddressId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Payment",
+			"item": [
+				{
+					"name": "Get Current User Payments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"userPaymentId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/payment?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"payment"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/payment/{{userPaymentId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"payment",
+								"{{userPaymentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Current User Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardNumber\": \"4746726732455714\",\n    \"cardHolderName\": \"James Smith\",\n    \"cvv\": \"599\",\n    \"expirationDate\": \"11/2028\",\n    \"paymentMethod\": \"DEBIT_CARD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/payment",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Current User Payment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cardHolderName\": \"James Smith\",\n    \"expirationDate\": \"11/2030\",\n    \"paymentMethod\": \"DEBIT_CARD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/payment/{{userPaymentId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"payment",
+								"{{userPaymentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Current User Payment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/payment/{{userPaymentId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"payment",
+								"{{userPaymentId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Store",
+			"item": [
+				{
+					"name": "Get All Stores",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"storeId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/store?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"store"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Store",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/store/{{storeId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"store",
+								"{{storeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Store 01\",\n    \"description\": \"Store 01 Description\",\n    \"userId\": \"{{userId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/store",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Store",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Store 01 Updated\",\n    \"description\": \"Store 01 Description\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/store/{{storeId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"store",
+								"{{storeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Store",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/store/{{storeId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"store",
+								"{{storeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Get All Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"productId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/product?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"product"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products From Store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"productId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/product/store/{{storeId}}?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"product",
+								"store",
+								"{{storeId}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products From Category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"productId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/product/category/OTHER?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"product",
+								"category",
+								"OTHER"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/product/{{productId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"product",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Product 01\",\n    \"price\": 10.00,\n    \"category\": \"OTHER\",\n    \"description\": \"Product 01 description\",\n    \"details\": \"Product 01 details\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/product/store/{{storeId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"product",
+								"store",
+								"{{storeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Store",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Product 01 UPdated\",\n    \"price\": 10.00,\n    \"category\": \"OTHER\",\n    \"description\": \"Product 01 description\",\n    \"details\": \"Product 01 details\",\n    \"image\": \"https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fclubcatt.com%2Fcdn%2Fshop%2Farticles%2Fdomestic-house-cat.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/product/{{productId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"product",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Store",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/product/{{productId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"product",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stock",
+			"item": [
+				{
+					"name": "Get All Stock From Store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"stockId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/stock/store/{{storeId}}?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"stock",
+								"store",
+								"{{storeId}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stock",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/stock/{{stockId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"stock",
+								"{{stockId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stock From Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/stock/product/{{productId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"stock",
+								"product",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product Stock",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": 190\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/stock/{{stockId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"stock",
+								"{{stockId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rating",
+			"item": [
+				{
+					"name": "Get All Rating From Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"ratingId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/rating/product/{{productId}}?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"rating",
+								"product",
+								"{{productId}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Rating From User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"ratingId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/rating/user/{{userId}}?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"rating",
+								"user",
+								"{{userId}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rating",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/rating/{{ratingId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"rating",
+								"{{ratingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Rating",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rating\": \"EXCELLENT\",\n    \"comment\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac justo vel eros rhoncus viverra. Nunc aliquet magna risus, eget hendrerit lorem scelerisque nec.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/rating/user/product/{{productId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"rating",
+								"user",
+								"product",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Rating",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rating\": \"VERY_GOOD\",\n    \"comment\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac justo vel eros rhoncus viverra. Nunc aliquet magna risus, eget hendrerit lorem scelerisque nec.\",\n    \"images\": [\n        \"https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fclubcatt.com%2Fcdn%2Fshop%2Farticles%2Fdomestic-house-cat.png%3Fv%3D1689444796&f=1&nofb=1&ipt=b431ba9ae835bd620f3e349a146948cd599550c72bafc8a8a8055b4887e62381\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/rating/{{ratingId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"rating",
+								"{{ratingId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Rating",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/rating/{{ratingId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"rating",
+								"{{ratingId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Get All Orders From User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const result = pm.response.json();",
+									"",
+									"if(result.count > 0) {",
+									"    pm.collectionVariables.set(\"orderId\", result.values[result.count - 1].id)",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/order/user?page=0&size=100",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"order",
+								"user"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/order/user/{{orderId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"order",
+								"user",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"addressId\": \"{{userAddressId}}\",\n    \"paymentId\": \"{{userPaymentId}}\",\n    \"quantity\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{prefix}}/order/user/product/{{productId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"order",
+								"user",
+								"product",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Order",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{prefix}}/order/status/cancel/{{orderId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{prefix}}",
+								"order",
+								"status",
+								"cancel",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearerToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": ""
+		},
+		{
+			"key": "prefix",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "userAddressId",
+			"value": ""
+		},
+		{
+			"key": "userPaymentId",
+			"value": ""
+		},
+		{
+			"key": "storeId",
+			"value": ""
+		},
+		{
+			"key": "productId",
+			"value": ""
+		},
+		{
+			"key": "stockId",
+			"value": ""
+		},
+		{
+			"key": "ratingId",
+			"value": ""
+		},
+		{
+			"key": "orderId",
+			"value": ""
+		},
+		{
+			"key": "bearerToken",
+			"value": ""
+		}
+	]
+}
