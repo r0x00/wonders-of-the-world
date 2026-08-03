@@ -26,4 +26,4 @@ To start the application you will only need to run the script **./scripts/develo
 
 ## Postman
 
-This project have a psotman with all the api routes. To use it please install [posmtan](https://www.postman.com/downloads/) after installing and opening it, you'll need to import the collection that is in the **postman/** folder with name **Wonders of The World.postman_collection**. There you will find users, hotel and reservation endpoints.
+This project have a psotman with all the api routes. To use it please install [posmtan](https://www.postman.com/downloads/) after installing and opening it, you'll need to import the collection that is in the **postman/** folder with name **Wonders of The World.postman_collection**.
