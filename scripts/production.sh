@@ -21,9 +21,5 @@ function checkDockerContainer {
 docker-compose -f ./docker/localstack/docker-compose.yml up -d
 checkDockerContainer "localstack"
 
-docker-compose -f ./docker/development/docker-compose.yml up -d
+docker-compose -f ./docker/production/docker-compose.yml up -d
 checkDockerContainer "wonders-of-the-world_db"
-
-mvn clean compile
-
-./mvnw spring-boot:run
